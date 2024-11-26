@@ -1,0 +1,28 @@
+version: "2.1"
+
+volumes:
+  adguardhome-sync:
+
+services:
+  adguardhome-sync:
+    image: ghcr.io/bakito/adguardhome-sync
+    container_name: adguardhome-sync
+    command: run --config /config/adguardhome-sync.yaml
+    volumes:
+      - /portainer/Files/AppData/Config/AdguardHome/adguardhome-sync.yaml:/config/adguardhome-sync.yaml 
+      #Change for the filepath of the .yaml conf file. 
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    environment:
+      - RUNONSTART=true
+      - LOG_LEVEL=info
+      - CRON=*/10 * * * *
+      - ORIGIN_URL=http://10.0.60.16:8089 
+        #Bear in mins the port
+      - ORIGIN_USERNAME=adminx
+      - ORIGIN_PASSWORD=e$N6$d24PejKj*h
+      - REPLICA_URL=http://10.0.60.9:8989
+      - REPLICA_USERNAME=xadminx
+      - REPLICA_PASSWORD=e$N6$d24PejKj*h
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
